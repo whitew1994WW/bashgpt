@@ -1,23 +1,22 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='your_package',
-    version='0.1.0',
-    packages=find_packages(),
+    name='bashgpt',
+    version='0.3.0',
+    package_dir={'': 'src'},
+    packages=find_packages(where='src'),
     entry_points={
         'console_scripts': [
-            'bashgpt=bash_runner:main',
+            'bashgpt=bashgpt.bashgpt:main',
         ],
     },
     install_requires=[
     ],
     python_requires='>=3.6',
-    author='Your Name',
-    author_email='your.email@example.com',
-    description='A short description of your project.',
+    description='A cli tool for turning plain text into bash commands',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/yourusername/your_package',
+    url='https://github.com/whitew1994WW/bashgpt',
     classifiers=[
         # Classifiers help users find your project by categorizing it.
         # For a list of valid classifiers, see https://pypi.org/classifiers/

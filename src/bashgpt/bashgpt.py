@@ -17,6 +17,8 @@ Current Working Directory: {cwd}
 Command: {command}
 Output: {output}
 """
+class InvalidAPIKeyException(Exception):
+    pass
 
 def query_openai_chat_gpt4(prompt, api_key):
     url = "https://api.openai.com/v1/chat/completions"
@@ -32,6 +34,12 @@ def query_openai_chat_gpt4(prompt, api_key):
     }
 
     response = requests.post(url, headers=headers, json=data)
+    # print(response.json())
+    if 'error' in response.json():
+        if 'Incorrect API key provided' in response.json()['error']['message']:
+            raise InvalidAPIKeyException('Incorrect API key provided')
+        else:
+            raise Exception(response.json()['error']['message'])
     return response.json()['choices'][0]['message']['content']
 
 def construct_bash_command(task, api_key):
@@ -61,7 +69,7 @@ def explain_bash_output(command, output, api_key):
     return explanation
 
 
-def get_api_key():
+def get_api_key(reset):
     api_key_file = 'api_key.txt'
     api_key = None
 
@@ -71,7 +79,7 @@ def get_api_key():
             api_key = file.read().strip()
 
     # Ask for the API key if not found
-    if not api_key:
+    if not api_key or reset:
         api_key = input("Enter your OpenAI API key: ").strip()
         # Save the API key for future use
         with open(api_key_file, 'w') as file:
@@ -80,17 +88,24 @@ def get_api_key():
     return api_key
 
 def main():
-    # Get or ask for the API key
-    api_key = get_api_key()
-
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Python CLI tool to generate and run Bash commands.")
     parser.add_argument('command_description', type=str, help="Text to generate Bash command from.")
     parser.add_argument('--explain', action='store_true', help="Explain the output of the command.")
+    parser.add_argument('--reset', action='store_true', help="Reset the API key.")
     args = parser.parse_args()
 
+    # Get or ask for the API key
+    api_key = get_api_key(args.reset)
 
-    bash_command = construct_bash_command(args.command_description, api_key)
+
+
+    try:
+        bash_command = construct_bash_command(args.command_description, api_key)
+    except InvalidAPIKeyException as e:
+        print("Invalid API key provided. Please try again.")
+        return
+
 
     # Show Bash command to user and ask for confirmation
     print("The following Bash command will be executed:\n")

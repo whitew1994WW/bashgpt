@@ -1,3 +1,14 @@
+Metadata-Version: 2.1
+Name: bashgpt
+Version: 0.3.0
+Summary: A cli tool for turning plain text into bash commands
+Home-page: https://github.com/whitew1994WW/bashgpt
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
 # Bash GPT
 
 This is a simple bash script that uses OpenAI's GPT-4 to write bash commands to answer your questions. For instance see the below screenshots of the tool in action:

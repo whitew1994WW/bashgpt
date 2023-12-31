@@ -1,0 +1,2 @@
+[console_scripts]
+bashgpt = bashgpt.bashgpt:main
