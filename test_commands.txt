@@ -1,0 +1,4 @@
+"list the files in this directory and save their names to a text file called 'names.txt'"
+"How is my cpu looking?"
+"How much outgoing network traffic is there from this computer at the moment?"
+"Find any references to bashgpt in this folder"

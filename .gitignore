@@ -1,0 +1,4 @@
+.pypirc
+.conda
+__pycache__
+dist/
